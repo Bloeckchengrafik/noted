@@ -20,13 +20,13 @@
     border-radius: 10px
     cursor: pointer
     transition: background-color 0.2s ease-in-out
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)
+    background: #77777722
 
     &:hover
-      background-color: rgba(255, 255, 255, 0.1)
+      background-color: #77777755
 
     &:active
-      background-color: rgba(255, 255, 255, 0.2)
+      background-color: #77777733
 
     span
       margin-left: 10px

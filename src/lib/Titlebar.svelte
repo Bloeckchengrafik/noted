@@ -38,14 +38,9 @@
     display: flex
     align-items: center
     justify-content: flex-start
-    color: #ffffff
+    color: val(--color-text)
     letter-spacing: 1px
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)
-
-  .logo
-    height: 90%
-    margin-left: 20px
-    border-radius: 50%
 
   .tabs
     display: flex
@@ -78,7 +73,7 @@
 
   .quick-actions > div:hover
     cursor: pointer
-    background: rgba(255, 255, 255, 0.1)
+    background: #77777777
 
   .v-sep
     width: 1px
