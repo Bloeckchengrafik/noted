@@ -27,7 +27,7 @@ impl SavedData {
         Self {
             settings: Settings {
                 file_tree_open: true,
-                opened_dirs: Vec::new(),
+                opened_dirs: vec!["/".to_string()],
             },
             preferences: Preferences {},
         }

@@ -1,19 +1,12 @@
 <script lang="ts">
     import "../app.css";
     import Titlebar from "$lib/Titlebar.svelte";
-    import LogRocket from 'logrocket';
-    import Filenav from "$lib/Filenav.svelte";
+    import FileNav from "$lib/FileNav.svelte";
     import {invoke} from "@tauri-apps/api/tauri";
     import {hasLoaded, settings, sidebarOpen} from "../stores";
     import type {Settings} from "../stores";
     import {onMount} from "svelte";
     import Preloader from "$lib/Preloader.svelte";
-
-    LogRocket.init('hgalrl/noted');
-
-    invoke("current_user").then((user: string) => {
-        LogRocket.identify(user);
-    });
 
     onMount(async () => {
         let settingsAnswer = await invoke("get_settings") as Settings;
@@ -24,7 +17,11 @@
 
 
         settings.subscribe((value) => {
-            if (!hasLoaded) return;
+            if (!hasLoaded) {
+                console.log("Shouldn't be saving settings yet");
+                return;
+            }
+            console.log("Saving settings: ", value);
             invoke("save_settings", {settings: value}).then(_ => console.log("Settings saved!"));
         })
 
@@ -47,7 +44,7 @@
     <Preloader />
 {:else}
     <Titlebar/>
-    <Filenav>
+    <FileNav>
         <slot/>
-    </Filenav>
+    </FileNav>
 {/if}

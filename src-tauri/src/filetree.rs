@@ -28,7 +28,7 @@ impl FileTree {
             root: Node {
                 node_type: NodeType::Directory,
                 name: "".to_string(),
-                children: Vec::new(),
+                children: vec![],
             },
         };
 

@@ -29,20 +29,9 @@ fn save_settings(settings: saveload::Settings) {
     data.save();
 }
 
-#[tauri::command]
-fn update_dir_opened(dir: String, opened: bool) {
-    let mut data = saveload::SavedData::from_file();
-    if opened {
-        data.settings.opened_dirs.push(dir);
-    } else {
-        data.settings.opened_dirs.retain(|x| x != &dir);
-    }
-    data.save();
-}
-
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![current_user, get_filetree, get_settings, save_settings,update_dir_opened])
+        .invoke_handler(tauri::generate_handler![current_user, get_filetree, get_settings, save_settings])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
