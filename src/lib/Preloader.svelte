@@ -1,22 +1,4 @@
 <script>
-
-    /*
-
-    One of the following loaders will be randomly chosen
-
-    0. Shadow
-    1. Moon
-    2. Circle3
-    3. Clock
-    4. Pulse
-    5. Stretch
-    6. Circle
-    7. Circle2
-    8. SyncLoader
-    9. Firework
-
-     */
-
     import {Shadow, Moon, Circle3, Clock, Pulse, Stretch, Circle, Circle2, SyncLoader, Firework} from "svelte-loading-spinners";
 
     let loader_id = Math.floor(Math.random() * 10);

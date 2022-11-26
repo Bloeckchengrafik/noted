@@ -23,11 +23,11 @@
     let interval: NodeJS.Timer = null;
 
     onMount(() => {
-        //interval = setInterval(loadFileTree, 2000)
+        interval = setInterval(loadFileTree, 2000)
     })
 
     onDestroy(() => {
-        //clearInterval(interval)
+        clearInterval(interval)
     })
 
 </script>

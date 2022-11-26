@@ -12,4 +12,6 @@ export const settings: Writable<Settings> = writable({
     opened_dirs: [],
 });
 
+export const openCtxMenus: Writable<(()=>void)[]> = writable([]);
+
 export const hasLoaded = writable(false);

@@ -38,7 +38,7 @@
     fileChildren.sort((a, b) => a.name.localeCompare(b.name))
     dirChildren.sort((a, b) => a.name.localeCompare(b.name))
 
-    let FileIcon = File
+    let CurrentFileIcon = File
 
     const fileExtension = node.name.split(".").pop()
 
@@ -124,13 +124,18 @@
         "vbs": FileCode, // visual basic script
         "vim": FileCode, // vim script
         "vimrc": FileCode, // vim config
+        "tex": FileCode, // latex
+        "bib": FileCode, // bibtex
+        "cls": FileCode, // latex class
+        "sty": FileCode, // latex style
+        "dtx": FileCode, // latex document
     }
 
     if (node.node_type == "Directory") {
-        FileIcon = Folder
+        CurrentFileIcon = Folder
     } else {
         if (extensions[fileExtension]) {
-            FileIcon = extensions[fileExtension]
+            CurrentFileIcon = extensions[fileExtension]
         }
     }
 
@@ -153,15 +158,93 @@
         }
     }
 
-    function onContextFile(opened_dirs: { includes: (val: string) => boolean }) {
+    let fileContextMenuOpen = false
+    let dirContextMenuOpen = false
 
+    let fileContextMenuX = 0
+    let fileContextMenuY = 0
+
+    /**
+     * Show the file context menu
+     * It contains the following options:
+     * - Open
+     * - Open in new tab
+     * - - -
+     * - Show in file explorer
+     * - Open in default application
+     * - Copy full path
+     * - - -
+     * - Rename
+     * - Delete
+     *
+     * @param opened_dirs the list of opened directories
+     * @param e the event that triggered the context menu
+     */
+    function onContextFile(opened_dirs: { includes: (val: string) => boolean }, e: MouseEvent) {
+        console.log("file context")
+
+        fileContextMenuOpen = true
+
+        fileContextMenuX = e.clientX
+        fileContextMenuY = e.clientY
+
+        // Make sure the context menu is not off the screen
+        if (fileContextMenuX + 200 > window.innerWidth) {
+            fileContextMenuX = window.innerWidth - 200
+            console.warn("Context menu is off the screen, moving it to the left")
+        }
+
+        if (fileContextMenuY + 300 > window.innerHeight) {
+            fileContextMenuY = window.innerHeight - 300
+            console.warn("Context menu is off the screen, moving it to the top")
+        }
+
+        // There is another 50px of padding at the top of the screen
+        if (fileContextMenuY < 50) {
+            fileContextMenuY = 50
+            console.warn("Context menu is off the screen, moving it to the bottom")
+        }
     }
 
-    function onContextDir(opened_dirs: { includes: (val: string) => boolean }) {
-
+    /**
+     * Show the directory context menu
+     * It contains the following options:
+     * - New file
+     * - New directory
+     * - - -
+     * - Show in file explorer
+     * - Open in terminal
+     * - Copy full path
+     * - - -
+     * - Rename
+     * - Move
+     * - Delete
+     *
+     * @param opened_dirs the list of opened directories
+     * @param event the event that triggered the context menu
+     */
+    function onContextDir(opened_dirs: { includes: (val: string) => boolean }, event: MouseEvent) {
+        console.log("dir context")
     }
 
 </script>
+
+{#if fileContextMenuOpen}
+    <div class="context-menu-middleware" on:click={(e) => { e.stopPropagation(); fileContextMenuOpen = false}}>
+        <div class="context-menu" style="top: {fileContextMenuY}px; left: {fileContextMenuX}px" on:click={(e)=>e.stopPropagation()}>
+            <div>Open</div>
+            <div>Open in new tab</div>
+            <hr>
+            <div>Show in file explorer</div>
+            <div>Open in default application</div>
+            <div>Copy full path</div>
+            <hr>
+            <div>Rename</div>
+            <div>Delete</div>
+        </div>
+    </div>
+{/if}
+
 <div class="clickable" on:click={(event) => {
     event.stopPropagation()
 
@@ -179,22 +262,24 @@
 
          if (node.node_type === "File") {
             // noinspection JSCheckFunctionSignatures
-            onContextFile($settings.opened_dirs)
+            onContextFile($settings.opened_dirs, event)
          } else {
             // noinspection JSCheckFunctionSignatures
-            onContextDir(($settings.opened_dirs))
+            onContextDir($settings.opened_dirs, event)
          }
      }}>
 
-    {#if node.node_type === "Directory"}
-        <span class={"rotate-next " + ($settings.opened_dirs.includes(fqpn) ? "rotate" : "")}></span>
-        <CaretRight/>
-        <FileIcon/>
-    {:else}
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FileIcon/>
-    {/if}
+    <div class="hoverable max-one-line">
+        {#if node.node_type === "Directory"}
+            <span class={"rotate-next " + ($settings.opened_dirs.includes(fqpn) ? "rotate" : "")}></span>
+            <CaretRight/>
+            <svelte:component this={CurrentFileIcon}/>
+        {:else}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<svelte:component this={CurrentFileIcon}/>
+        {/if}
 
-    {node.name}
+        {node.name}
+    </div>
     {#if node.node_type === "Directory" && $settings.opened_dirs.includes(fqpn)}
         <ul>
             {#each dirChildren as child}
@@ -223,7 +308,7 @@
   .has-left-border:after
     content: ""
     position: absolute
-    top: 0
+    top: 5px
     left: 10px
     bottom: 5px
     width: 1px
@@ -241,4 +326,48 @@
 
   .rotate + :global(svg)
     transform: rotate(90deg)
+
+  .context-menu-middleware
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    z-index: 999999
+
+    cursor: default
+
+  .context-menu
+    position: fixed
+    background-color: var(--color-background)
+    border: 0.5px solid var(--color-border)
+    border-radius: 5px
+    padding: 0.5rem
+    cursor: pointer
+    user-select: none
+
+    z-index: 999999
+
+    div
+      padding: 0.25rem 0.5rem
+
+      &:hover
+        background-color: var(--color-background-secondary)
+
+    hr
+      border: 0.5px solid var(--color-border)
+      margin: 0.5rem 0
+
+  .hoverable
+    padding: 1px
+    border-radius: 5px
+
+    &:hover
+      background-color: var(--color-background-secondary)
+
+  .max-one-line
+    max-width: 100%
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
 </style>
