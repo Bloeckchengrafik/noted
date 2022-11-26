@@ -16,7 +16,8 @@
     "logrocket": "^3.0.1",
     "phosphor-svelte": "^1.2.1",
     "sass": "^1.56.1",
-    "svelte-loading-spinners": "^0.3.4"
+    "svelte-loading-spinners": "^0.3.4",
+    "sweetalert2": "^11.6.14"
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "next",

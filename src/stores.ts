@@ -6,12 +6,40 @@ export type Settings = {
     opened_dirs: string[];
 }
 
+export type NullCtxMenuPayload = {
+    type: "null";
+}
+
+export type FileCtxMenuPayload = {
+    type: "file";
+    fqpn: string;
+    filename: string;
+}
+
+export type DirCtxMenuPayload = FileCtxMenuPayload
+
+export type CtxMenuPayload = FileCtxMenuPayload | DirCtxMenuPayload | NullCtxMenuPayload;
+
+export type CtxMenu = {
+    x: number;
+    y: number;
+    visible: boolean;
+    payload: CtxMenuPayload;
+}
+
 export const sidebarOpen = writable(false);
 export const settings: Writable<Settings> = writable({
     file_tree_open: true,
     opened_dirs: [],
 });
 
-export const openCtxMenus: Writable<(()=>void)[]> = writable([]);
+export const currentCtxMenuSettings: Writable<CtxMenu> = writable({
+    x: 0,
+    y: 0,
+    visible: false,
+    payload: { type: "null" }
+})
+
+export const reloadFileTreeTrigger = writable(() => {});
 
 export const hasLoaded = writable(false);

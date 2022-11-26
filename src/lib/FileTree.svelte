@@ -9,7 +9,7 @@
         FileCsv,
         FileImage, FileLock, FileVideo, FileCode
     } from "phosphor-svelte";
-    import {settings} from "../stores.js";
+    import {settings, currentCtxMenuSettings} from "../stores.js";
 
     export type FileNode = {
         name: string;
@@ -158,12 +158,6 @@
         }
     }
 
-    let fileContextMenuOpen = false
-    let dirContextMenuOpen = false
-
-    let fileContextMenuX = 0
-    let fileContextMenuY = 0
-
     /**
      * Show the file context menu
      * It contains the following options:
@@ -183,10 +177,8 @@
     function onContextFile(opened_dirs: { includes: (val: string) => boolean }, e: MouseEvent) {
         console.log("file context")
 
-        fileContextMenuOpen = true
-
-        fileContextMenuX = e.clientX
-        fileContextMenuY = e.clientY
+        let fileContextMenuX = e.clientX-10
+        let fileContextMenuY = e.clientY-10
 
         // Make sure the context menu is not off the screen
         if (fileContextMenuX + 200 > window.innerWidth) {
@@ -204,6 +196,18 @@
             fileContextMenuY = 50
             console.warn("Context menu is off the screen, moving it to the bottom")
         }
+
+        currentCtxMenuSettings.update(s => {
+            s.x = fileContextMenuX
+            s.y = fileContextMenuY
+            s.visible = true
+            s.payload = {
+                type: "file",
+                fqpn: fqpn,
+                filename: node.name,
+            }
+            return s
+        })
     }
 
     /**
@@ -229,47 +233,31 @@
 
 </script>
 
-{#if fileContextMenuOpen}
-    <div class="context-menu-middleware" on:click={(e) => { e.stopPropagation(); fileContextMenuOpen = false}}>
-        <div class="context-menu" style="top: {fileContextMenuY}px; left: {fileContextMenuX}px" on:click={(e)=>e.stopPropagation()}>
-            <div>Open</div>
-            <div>Open in new tab</div>
-            <hr>
-            <div>Show in file explorer</div>
-            <div>Open in default application</div>
-            <div>Copy full path</div>
-            <hr>
-            <div>Rename</div>
-            <div>Delete</div>
-        </div>
-    </div>
-{/if}
+<div>
+    <div class="clickable hoverable max-one-line"
+         on:click={(event) => {
+            event.stopPropagation()
 
-<div class="clickable" on:click={(event) => {
-    event.stopPropagation()
+            if (node.node_type === "File") {
+                // noinspection JSCheckFunctionSignatures
+                onClickFile($settings.opened_dirs)
+            } else {
+                // noinspection JSCheckFunctionSignatures
+                onClickDir(($settings.opened_dirs))
+            }
+        }}
+         on:contextmenu={(event) => {
+            event.stopPropagation()
+            event.preventDefault()
 
-    if (node.node_type === "File") {
-        // noinspection JSCheckFunctionSignatures
-        onClickFile($settings.opened_dirs)
-    } else {
-        // noinspection JSCheckFunctionSignatures
-        onClickDir(($settings.opened_dirs))
-    }
-}}
-     on:contextmenu={(event) => {
-         event.stopPropagation()
-         event.preventDefault()
-
-         if (node.node_type === "File") {
-            // noinspection JSCheckFunctionSignatures
-            onContextFile($settings.opened_dirs, event)
-         } else {
-            // noinspection JSCheckFunctionSignatures
-            onContextDir($settings.opened_dirs, event)
-         }
+            if (node.node_type === "File") {
+                // noinspection JSCheckFunctionSignatures
+                onContextFile($settings.opened_dirs, event)
+            } else {
+                // noinspection JSCheckFunctionSignatures
+                onContextDir($settings.opened_dirs, event)
+            }
      }}>
-
-    <div class="hoverable max-one-line">
         {#if node.node_type === "Directory"}
             <span class={"rotate-next " + ($settings.opened_dirs.includes(fqpn) ? "rotate" : "")}></span>
             <CaretRight/>
@@ -327,37 +315,6 @@
   .rotate + :global(svg)
     transform: rotate(90deg)
 
-  .context-menu-middleware
-    position: fixed
-    top: 0
-    left: 0
-    right: 0
-    bottom: 0
-    z-index: 999999
-
-    cursor: default
-
-  .context-menu
-    position: fixed
-    background-color: var(--color-background)
-    border: 0.5px solid var(--color-border)
-    border-radius: 5px
-    padding: 0.5rem
-    cursor: pointer
-    user-select: none
-
-    z-index: 999999
-
-    div
-      padding: 0.25rem 0.5rem
-
-      &:hover
-        background-color: var(--color-background-secondary)
-
-    hr
-      border: 0.5px solid var(--color-border)
-      margin: 0.5rem 0
-
   .hoverable
     padding: 1px
     border-radius: 5px
@@ -370,4 +327,5 @@
     overflow: hidden
     text-overflow: ellipsis
     white-space: nowrap
+    position: relative
 </style>

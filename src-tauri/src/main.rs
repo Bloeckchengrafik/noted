@@ -5,33 +5,22 @@
 
 mod filetree;
 mod saveload;
+mod commands;
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn current_user() -> String {
-    whoami::username()
-}
-
-#[tauri::command]
-fn get_filetree() -> filetree::FileTree {
-    filetree::FileTree::new()
-}
-
-#[tauri::command]
-fn get_settings() -> saveload::Settings {
-    saveload::SavedData::from_file().settings
-}
-
-#[tauri::command]
-fn save_settings(settings: saveload::Settings) {
-    let mut data = saveload::SavedData::from_file();
-    data.settings = settings;
-    data.save();
-}
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![current_user, get_filetree, get_settings, save_settings])
+        .invoke_handler(tauri::generate_handler![
+            commands::user::current_user,
+            commands::tree::get_filetree,
+            commands::tree::get_base_path,
+            commands::tree::rename,
+            commands::tree::delete,
+            commands::tree::open_in_explorer,
+            commands::tree::open_in_default_app,
+            commands::saveload::get_settings,
+            commands::saveload::save_settings
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -58,12 +58,14 @@ body {
     margin: 0;
 }
 
-/* Style scrollbars for Safari */
-*::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+
+* {
+    user-select: none;
 }
 
-*::-webkit-scrollbar-track:hover {
-    background: var(--color-background-tertiary);
+
+*::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }
+

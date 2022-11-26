@@ -18,7 +18,7 @@ struct Node {
 }
 
 #[derive(Deserialize, Serialize)]
-pub(crate) struct FileTree {
+pub struct FileTree {
     root: Node,
 }
 
@@ -86,7 +86,7 @@ impl FileTree {
         }
     }
 
-    fn get_root_dir() -> String {
+    pub fn get_root_dir() -> String {
         let root_dir = if cfg!(target_os = "windows") {
             let homedir = var("USERPROFILE").unwrap();
             format!("{}\\.noted", homedir)

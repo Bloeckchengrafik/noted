@@ -7,6 +7,8 @@
     import type {Settings} from "../stores";
     import {onMount} from "svelte";
     import Preloader from "$lib/Preloader.svelte";
+    import CtxMenu from "$lib/CtxMenu.svelte";
+    import {currentCtxMenuSettings} from "../stores.js";
 
     onMount(async () => {
         let settingsAnswer = await invoke("get_settings") as Settings;
@@ -41,8 +43,11 @@
 </script>
 
 {#if !$hasLoaded}
-    <Preloader />
+    <Preloader/>
 {:else}
+    {#key currentCtxMenuSettings}
+        <CtxMenu ctxMenu={$currentCtxMenuSettings}/>
+    {/key}
     <Titlebar/>
     <FileNav>
         <slot/>
