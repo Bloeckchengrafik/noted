@@ -13,9 +13,10 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^1.1.0",
+    "logrocket": "^3.0.1",
     "phosphor-svelte": "^1.2.1",
     "sass": "^1.56.1",
-    "svelte-tree-viewer": "^1.0.1"
+    "svelte-loading-spinners": "^0.3.4"
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "next",

@@ -12,18 +12,6 @@
   resolved "https://registry.yarnpkg.com/@esbuild/linux-loong64/-/linux-loong64-0.15.15.tgz#32c65517a09320b62530867345222fde7794fbe1"
   integrity sha512-lhz6UNPMDXUhtXSulw8XlFAtSYO26WmHQnCi2Lg2p+/TMiJKNLtZCYUxV4wG6rZMzXmr8InGpNwk+DLT2Hm0PA==
 
-"@fortawesome/fontawesome-common-types@^0.2.36":
-  version "0.2.36"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.36.tgz#b44e52db3b6b20523e0c57ef8c42d315532cb903"
-  integrity sha512-a/7BiSgobHAgBWeN7N0w+lAhInrGxksn13uK7231n2m8EDPE3BMCl9NZLTGrj9ZXfCmC6LM0QLqXidIizVQ6yg==
-
-"@fortawesome/free-solid-svg-icons@^5.15.4":
-  version "5.15.4"
-  resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.15.4.tgz#2a68f3fc3ddda12e52645654142b9e4e8fbb6cc5"
-  integrity sha512-JLmQfz6tdtwxoihXLg6lT78BorrFyCf59SAwBM6qV/0zXyVeDygJVb3fk+j5Qat+Yvcxp1buLTY5iDh1ZSAQ8w==
-  dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.2.36"
-
 "@jridgewell/resolve-uri@3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@jridgewell/resolve-uri/-/resolve-uri-3.1.0.tgz#2203b118c157721addfe69d47b70465463066d78"
@@ -563,6 +551,11 @@ kleur@^4.1.5:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-4.1.5.tgz#95106101795f7050c6c650f350c683febddb1780"
   integrity sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==
 
+logrocket@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/logrocket/-/logrocket-3.0.1.tgz#c746e8df3d5fee999b152975e51db1908357a6f0"
+  integrity sha512-jOWG+jEzobKVxGytzZ+4KGm2kiMQMRTHab2uDWQyVZcHfEF38BlCH1yjQVY4LCmuQUwZitP9biMzJZnyUQ0dtQ==
+
 magic-string@^0.25.7:
   version "0.25.9"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.9.tgz#de7f9faf91ef8a1c91d02c2e5314c8277dbcdd1c"
@@ -835,15 +828,15 @@ svelte-check@^2.7.1:
     svelte-preprocess "^4.0.0"
     typescript "*"
 
-svelte-fa@^2.3.3:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/svelte-fa/-/svelte-fa-2.4.0.tgz#d94285151a975b92b29efec6ec9e2c11c57780ef"
-  integrity sha512-0bnbMGbsE1LUnlioDcf27tl2O8kjuXlTXMXzIxC7LoIOWmqn0D+zd539HfLiQbdLuOHGTaynwN9V+4ehhEu1Jw==
-
 svelte-hmr@^0.15.1:
   version "0.15.1"
   resolved "https://registry.yarnpkg.com/svelte-hmr/-/svelte-hmr-0.15.1.tgz#d11d878a0bbb12ec1cba030f580cd2049f4ec86b"
   integrity sha512-BiKB4RZ8YSwRKCNVdNxK/GfY+r4Kjgp9jCLEy0DuqAKfmQtpL38cQK3afdpjw4sqSs4PLi3jIPJIFp259NkZtA==
+
+svelte-loading-spinners@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/svelte-loading-spinners/-/svelte-loading-spinners-0.3.4.tgz#af11d0f9ef0943026415c931900c10fea02a88a5"
+  integrity sha512-vKaW71QMCBcTNijAGc0mUl8k3DQ66iYmp6MB8BMGCXyWk82bTrcLy8FOnSm9fE+8q6TwzD6PLUoYFHt0II93Xw==
 
 svelte-preprocess@^4.0.0, svelte-preprocess@^4.10.6:
   version "4.10.7"
@@ -856,14 +849,6 @@ svelte-preprocess@^4.0.0, svelte-preprocess@^4.10.6:
     magic-string "^0.25.7"
     sorcery "^0.10.0"
     strip-indent "^3.0.0"
-
-svelte-tree-viewer@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/svelte-tree-viewer/-/svelte-tree-viewer-1.0.1.tgz#b1c69924babe6a1128b32d3163c11b9572c14dcf"
-  integrity sha512-D85eW7FlO0yHUaUMIPgXjwkWuFOS06xUlEGy2BR/U+ic/eBCRv1+qjthmtnWeFMDC9fCXfc7yQ3EeSriYxwKTw==
-  dependencies:
-    "@fortawesome/free-solid-svg-icons" "^5.15.4"
-    svelte-fa "^2.3.3"
 
 svelte@^3.49.0:
   version "3.53.1"

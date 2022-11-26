@@ -1,5 +1,6 @@
 use std::env::var;
 use std::fs;
+use std::fs::DirEntry;
 use std::path::Path;
 use serde::{Deserialize, Serialize};
 
@@ -31,8 +32,6 @@ impl FileTree {
             },
         };
 
-        println!("Root dir: {:?}", Self::get_root_dir());
-
         // Fill the tree
         Self::populate_subtree(&mut data.root, &Self::get_root_dir());
 
@@ -49,22 +48,39 @@ impl FileTree {
             path.push_str(&*FileTree::get_path_separator());
             path.push_str(&node.name);
 
-            for file in fs::read_dir(Path::new(path.as_str())).unwrap() {
-                let file = file.unwrap();
+            let mut directories: Vec<DirEntry> = Vec::new();
+            let mut files: Vec<DirEntry> = Vec::new();
 
-                let file_name = file.file_name().into_string().unwrap();
-                let file_type = file.metadata().unwrap().file_type();
-                let node_type = if file_type.is_file() {
-                    NodeType::File
-                } else {
-                    NodeType::Directory
-                };
+            for file_or_dir in fs::read_dir(Path::new(path.as_str())).unwrap() {
+                let file_or_dir = file_or_dir.unwrap();
+                let file_or_dir_type = file_or_dir.file_type().unwrap();
+
+                if file_or_dir_type.is_dir() {
+                    directories.push(file_or_dir);
+                } else if file_or_dir_type.is_file() {
+                    files.push(file_or_dir);
+                }
+            }
+
+            for dir in directories {
                 let mut new_node = Node {
-                    node_type,
-                    name: file_name.to_string(),
+                    node_type: NodeType::Directory,
+                    name: dir.file_name().into_string().unwrap(),
                     children: Vec::new(),
                 };
+
                 Self::populate_subtree(&mut new_node, &path);
+
+                node.children.push(new_node);
+            }
+
+            for file in files {
+                let new_node = Node {
+                    node_type: NodeType::File,
+                    name: file.file_name().into_string().unwrap(),
+                    children: Vec::new(),
+                };
+
                 node.children.push(new_node);
             }
         }
