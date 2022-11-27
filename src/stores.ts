@@ -40,6 +40,6 @@ export const currentCtxMenuSettings: Writable<CtxMenu> = writable({
     payload: { type: "null" }
 })
 
-export const reloadFileTreeTrigger = writable(() => {});
+export const reloadFileTree = writable(false);
 
 export const hasLoaded = writable(false);

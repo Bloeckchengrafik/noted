@@ -2,8 +2,9 @@
     import type {FileCtxMenuPayload} from "../../stores";
     import {FilePlus, Tabs, FolderOpen, AppWindow, Copy, NotePencil, Trash} from "phosphor-svelte";
     import {question, toast} from "../../utils/alerts.js";
-    import {reloadFileTreeTrigger} from "../../stores.js";
+    import {reloadFileTree} from "../../stores.js";
     import {invoke} from "@tauri-apps/api/tauri";
+    import {copy} from "../../utils/copy.js";
 
     /*
      * Show the file context menu
@@ -46,8 +47,12 @@
 }}><AppWindow /> Open in default application</div>
 
 <div on:click={async () => {
-    console.log("copy full path")
     done()
+
+    let basePath = await invoke("get_base_path")
+    let fullPath = basePath + ctxMenu.fqpn
+    copy(fullPath)
+    await toast("Copied the full path to the system clipboard")
 }}><Copy /> Copy full path</div>
 <hr />
 
@@ -61,13 +66,13 @@
 
     console.log("new name", data.value)
 
+    $reloadFileTree = !$reloadFileTree
+
     if (!await invoke("rename", {fqpn: ctxMenu.fqpn.substring(1), newName: data.value})) {
         await toast("Failed to rename file", "", "error")
     } else {
         await toast("File renamed")
     }
-
-    $reloadFileTreeTrigger()
 }}><NotePencil /> Rename</div>
 
 <div on:click={async () => {

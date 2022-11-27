@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {reloadFileTreeTrigger, sidebarOpen} from "../stores";
+    import {reloadFileTree, sidebarOpen} from "../stores";
     import {invoke} from "@tauri-apps/api/tauri";
     import FileTree from "./FileTree.svelte";
     import {onMount, onDestroy} from "svelte";
@@ -30,8 +30,10 @@
         clearInterval(interval)
     })
 
-    reloadFileTreeTrigger.set(() => {
-        loadFileTree()
+    $: reloadFileTree.subscribe(() => {
+        loadFileTree().then(() => {
+            console.log("Reloaded file tree from interrupt")
+        })
     })
 
 </script>
