@@ -1,7 +1,7 @@
 <script lang="ts">
     import type {FileCtxMenuPayload} from "../../stores";
     import {FilePlus, Tabs, FolderOpen, AppWindow, Copy, NotePencil, Trash} from "phosphor-svelte";
-    import {question, toast} from "../../utils/alerts.js";
+    import {awaitConfirm, question, toast} from "../../utils/alerts.js";
     import {reloadFileTree} from "../../stores.js";
     import {invoke} from "@tauri-apps/api/tauri";
     import {copy} from "../../utils/copy.js";
@@ -28,13 +28,19 @@
     done()
 
     await toast("open file")
-}}><FilePlus />Open</div>
+}}>
+    <FilePlus/>
+    Open
+</div>
 
 <div on:click={async () => {
     console.log("open file in new tab")
     done()
-}}><Tabs /> Open in new tab</div>
-<hr />
+}}>
+    <Tabs/>
+    Open in new tab
+</div>
+<hr/>
 
 <div on:click={async () => {
     console.log("show in file explorer")
@@ -45,7 +51,10 @@
     } else {
         await toast("File opened")
     }
-}}><FolderOpen /> Show in file explorer</div>
+}}>
+    <FolderOpen/>
+    Show in file explorer
+</div>
 
 <div on:click={async () => {
     console.log("open in default application")
@@ -56,7 +65,10 @@
     } else {
         await toast("File opened")
     }
-}}><AppWindow /> Open in default application</div>
+}}>
+    <AppWindow/>
+    Open in default application
+</div>
 
 <div on:click={async () => {
     done()
@@ -65,8 +77,11 @@
     let fullPath = basePath + ctxMenu.fqpn
     copy(fullPath)
     await toast("Copied the full path to the system clipboard")
-}}><Copy /> Copy full path</div>
-<hr />
+}}>
+    <Copy/>
+    Copy full path
+</div>
+<hr/>
 
 <div on:click={async () => {
     console.log("rename")
@@ -78,16 +93,33 @@
 
     console.log("new name", data.value)
 
-    $reloadFileTree = !$reloadFileTree
-
     if (!await invoke("rename", {fqpn: ctxMenu.fqpn.substring(1), newName: data.value})) {
+        $reloadFileTree = !$reloadFileTree
         await toast("Failed to rename file", "", "error")
     } else {
+        $reloadFileTree = !$reloadFileTree
         await toast("File renamed")
     }
-}}><NotePencil /> Rename</div>
+}}>
+    <NotePencil/>
+    Rename
+</div>
 
 <div on:click={async () => {
     console.log("delete")
     done()
-}}><Trash /> Delete</div>
+
+    let data = await awaitConfirm("Delete", "Are you sure you want to delete this file?")
+    if (!data.value) return
+
+    if (!await invoke("delete", {fqpn: ctxMenu.fqpn.substring(1)})) {
+        $reloadFileTree = !$reloadFileTree
+        await toast("Failed to delete file", "", "error")
+    } else {
+        $reloadFileTree = !$reloadFileTree
+        await toast("File deleted")
+    }
+}}>
+    <Trash/>
+    Delete
+</div>

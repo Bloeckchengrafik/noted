@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type {FileCtxMenuPayload} from "../../stores";
+    import type {DirCtxMenuPayload} from "../../stores";
     import {FilePlus, FolderPlus, FolderOpen, TerminalWindow, Copy, NotePencil, Trash} from "phosphor-svelte";
-    import {question, toast} from "../../utils/alerts.js";
+    import {awaitConfirm, question, toast} from "../../utils/alerts.js";
     import {reloadFileTree} from "../../stores.js";
     import {invoke} from "@tauri-apps/api/tauri";
     import {copy} from "../../utils/copy.js";
@@ -18,7 +18,7 @@
      * - Delete
      */
 
-    export let ctxMenu: FileCtxMenuPayload
+    export let ctxMenu: DirCtxMenuPayload
     export let done: () => void
 </script>
 
@@ -39,7 +39,6 @@
     done()
 
     const answer = await question("How should the directory be named?")
-
     if (!answer.value) return
 
     const path = ctxMenu.fqpn.substring(1) + answer.value
@@ -54,10 +53,10 @@
     console.log("show in file explorer")
     done()
 
-    if (!await invoke("open_in_explorer", {fqpn: ctxMenu.fqpn.substring(1)})) {
+    if (!await invoke("open_dir_in_explorer", {fqpn: ctxMenu.fqpn.substring(1)})) {
         await toast("Failed to open", "", "error")
     } else {
-        await toast("File opened")
+        await toast("Opened!")
     }
 }}><FolderOpen /> Show in file explorer</div>
 
@@ -65,10 +64,10 @@
     console.log("open in terminal")
     done()
 
-    if (!await invoke("open_in_default_app", {fqpn: ctxMenu.fqpn.substring(1)})) {
+    if (!await invoke("open_dir_in_default_terminal", {fqpn: ctxMenu.fqpn.substring(1)})) {
         await toast("Failed to open", "", "error")
     } else {
-        await toast("File opened")
+        await toast("Opened!")
     }
 }}><TerminalWindow /> Open in Terminal</div>
 
@@ -86,22 +85,33 @@
     console.log("rename")
     done()
 
-    let data = await question("Rename", "Enter new name", ctxMenu.filename)
-
+    let data = await question("Rename", "Enter new name", ctxMenu.dirname)
     if (!data.value) return
 
     console.log("new name", data.value)
 
-    $reloadFileTree = !$reloadFileTree
-
-    if (!await invoke("rename", {fqpn: ctxMenu.fqpn.substring(1), newName: data.value})) {
-        await toast("Failed to rename file", "", "error")
+    if (!await invoke("rename_dir", {fqpn: ctxMenu.fqpn.substring(1), newName: data.value})) {
+        $reloadFileTree = !$reloadFileTree
+        await toast("Failed to rename directory", "", "error")
     } else {
-        await toast("File renamed")
+        $reloadFileTree = !$reloadFileTree
+        await toast("Directory renamed")
     }
 }}><NotePencil /> Rename</div>
 
 <div on:click={async () => {
     console.log("delete")
     done()
+
+    let data = await awaitConfirm("Are you sure you want to delete this directory?", "This action cannot be undone")
+    if (!data.value) return
+
+    if (!await invoke("delete_dir", {fqpn: ctxMenu.fqpn.substring(1)})) {
+        $reloadFileTree = !$reloadFileTree
+        await toast("Failed to delete directory", "", "error")
+    } else {
+        $reloadFileTree = !$reloadFileTree
+        await toast("Directory deleted")
+    }
+
 }}><Trash /> Delete</div>

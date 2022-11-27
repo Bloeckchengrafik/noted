@@ -24,6 +24,14 @@ const Question = Sweetalert.mixin({
     iconHtml: '',
 })
 
+const Confirm = Sweetalert.mixin({
+    background: 'var(--color-background-secondary)',
+    color: 'var(--color-text)',
+    showCancelButton: true,
+    confirmButtonColor: 'var(--color-quinary)',
+    cancelButtonColor: 'var(--color-tertiary)',
+})
+
 export const toast = async (title: string, text: string = "", icon: 'success' | 'error' | 'warning' | 'info' | 'question' = 'success') => {
     return Toast.fire({
         icon,
@@ -38,5 +46,13 @@ export const question = async (title: string, text: string = "", placeholder: st
         title,
         text,
         inputValue: placeholder
+    })
+}
+
+export const awaitConfirm = async (title: string, text: string = "") => {
+    return Confirm.fire({
+        title,
+        text,
+        icon: 'warning'
     })
 }
