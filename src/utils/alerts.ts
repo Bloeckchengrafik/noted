@@ -1,20 +1,20 @@
-import Swal from 'sweetalert2'
+import Sweetalert from 'sweetalert2'
 
-const Toast = Swal.mixin({
+const Toast = Sweetalert.mixin({
     toast: true,
-    position: 'top-end',
+    position: 'bottom-end',
     showConfirmButton: false,
     timer: 3000,
     timerProgressBar: true,
     background: 'var(--color-background-secondary)',
     color: 'var(--color-text)',
     didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
+        toast.addEventListener('mouseenter', Sweetalert.stopTimer)
+        toast.addEventListener('mouseleave', Sweetalert.resumeTimer)
     }
 })
 
-const Question = Swal.mixin({
+const Question = Sweetalert.mixin({
     background: 'var(--color-background-secondary)',
     color: 'var(--color-text)',
     showCancelButton: true,

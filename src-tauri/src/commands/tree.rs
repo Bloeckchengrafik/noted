@@ -98,3 +98,161 @@ pub fn open_in_default_app(fqpn: String) -> bool {
     // Open the file in the default application
     opener::open(path).is_ok()
 }
+
+#[tauri::command]
+pub fn create_file(fqpn: String) -> bool {
+    let root_dir = filetree::FileTree::get_root_dir();
+    let base_path = Path::new(&root_dir);
+
+    let path = base_path.join(Path::new(&fqpn));
+
+    // Check if the path is in the base directory
+    if !path.starts_with(base_path) {
+        println!("[!] Path is not in the base directory");
+        return false;
+    }
+
+    if !path.exists() {
+        std::fs::File::create(path).is_ok()
+    } else {
+        false
+    }
+}
+
+#[tauri::command]
+pub fn create_dir(fqpn: String) -> bool {
+    let root_dir = filetree::FileTree::get_root_dir();
+    let base_path = Path::new(&root_dir);
+
+    let path = base_path.join(Path::new(&fqpn));
+
+    // Check if the path is in the base directory
+    if !path.starts_with(base_path) {
+        println!("[!] Path is not in the base directory");
+        return false;
+    }
+
+    if !path.exists() {
+        std::fs::create_dir(path).is_ok()
+    } else {
+        false
+    }
+}
+
+#[tauri::command]
+pub fn open_dir_in_explorer(fqpn: String) -> bool {
+    let root_dir = filetree::FileTree::get_root_dir();
+    let base_path = Path::new(&root_dir);
+
+    let path = base_path.join(Path::new(&fqpn));
+
+    // Check if the path is in the base directory
+    if !path.starts_with(base_path) {
+        println!("[!] Path is not in the base directory");
+        return false;
+    }
+
+    // Open the directory in explorer
+    if cfg!(target_os = "windows") {
+        Command::new("explorer")
+            .arg(path)
+            .spawn()
+            .is_ok()
+    } else if cfg!(target_os = "linux") {
+        Command::new("xdg-open")
+            .arg(path)
+            .spawn()
+            .is_ok()
+    } else if cfg!(target_os = "macos") {
+        Command::new("open")
+            .arg(path)
+            .spawn()
+            .is_ok()
+    } else {
+        false
+    }
+}
+
+#[tauri::command]
+pub fn open_dir_in_default_terminal(fqpn: String) -> bool {
+    let root_dir = filetree::FileTree::get_root_dir();
+    let base_path = Path::new(&root_dir);
+
+    let path = base_path.join(Path::new(&fqpn));
+
+    // Check if the path is in the base directory
+    if !path.starts_with(base_path) {
+        println!("[!] Path is not in the base directory");
+        return false;
+    }
+
+    // Open the directory in the default terminal
+    if cfg!(target_os = "windows") {
+        Command::new("cmd")
+            .arg("/C")
+            .arg("start")
+            .arg("cmd")
+            .arg("/K")
+            .arg("cd")
+            .arg(path)
+            .spawn()
+            .is_ok()
+    } else if cfg!(target_os = "linux") {
+        Command::new("kitty")
+            .arg("--working-directory")
+            .arg(path)
+            .spawn()
+            .is_ok()
+    } else if cfg!(target_os = "macos") {
+        Command::new("open")
+            .arg("-a")
+            .arg("Terminal")
+            .arg(path)
+            .spawn()
+            .is_ok()
+    } else {
+        false
+    }
+}
+
+#[tauri::command]
+pub fn rename_dir(fqpn: String, new_name: String) -> bool {
+    let root_dir = filetree::FileTree::get_root_dir();
+    let base_path = Path::new(&root_dir);
+
+    let path = base_path.join(Path::new(&fqpn));
+
+    // Check if the path is in the base directory
+    if !path.starts_with(base_path) {
+        println!("[!] Path is not in the base directory");
+        return false;
+    }
+
+    let new_path = path.parent().unwrap().join(Path::new(&new_name));
+
+    if path.exists() && !new_path.exists() {
+        std::fs::rename(path, new_path).is_ok()
+    } else {
+        false
+    }
+}
+
+#[tauri::command]
+pub fn delete_dir(fqpn: String) -> bool {
+    let root_dir = filetree::FileTree::get_root_dir();
+    let base_path = Path::new(&root_dir);
+
+    let path = base_path.join(Path::new(&fqpn));
+
+    // Check if the path is in the base directory
+    if !path.starts_with(base_path) {
+        println!("[!] Path is not in the base directory");
+        return false;
+    }
+
+    if path.exists() {
+        std::fs::remove_dir_all(path).is_ok()
+    } else {
+        false
+    }
+}

@@ -2,6 +2,7 @@
     import type {CtxMenu} from "../stores";
     import FileCtxMenu from "$lib/ctxmenu/FileCtxMenu.svelte";
     import {currentCtxMenuSettings} from "../stores.js";
+    import DirCtxMenu from "$lib/ctxmenu/DirCtxMenu.svelte";
 
     export let ctxMenu: CtxMenu = {
         visible: false,
@@ -25,6 +26,8 @@
         <div class="ctx-menu" style="left: {ctxMenu.x}px; top: {ctxMenu.y}px;" on:click={(e) => e.stopPropagation()}>
             {#if ctxMenu.payload.type === "file"}
                 <FileCtxMenu ctxMenu={ctxMenu.payload} {done}/>
+            {:else if ctxMenu.payload.type === "dir"}
+                <DirCtxMenu ctxMenu={ctxMenu.payload} {done}/>
             {:else}
                 <div>Unknown context menu type</div>
             {/if}

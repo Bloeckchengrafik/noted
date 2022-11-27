@@ -1,19 +1,17 @@
 <script lang="ts">
     import type {FileCtxMenuPayload} from "../../stores";
-    import {FilePlus, Tabs, FolderOpen, AppWindow, Copy, NotePencil, Trash} from "phosphor-svelte";
+    import {FilePlus, FolderPlus, FolderOpen, TerminalWindow, Copy, NotePencil, Trash} from "phosphor-svelte";
     import {question, toast} from "../../utils/alerts.js";
     import {reloadFileTree} from "../../stores.js";
     import {invoke} from "@tauri-apps/api/tauri";
     import {copy} from "../../utils/copy.js";
 
     /*
-     * Show the file context menu
-     * It contains the following options:
-     * - Open
-     * - Open in new tab
+     * - New file
+     * - New directory
      * - - -
      * - Show in file explorer
-     * - Open in default application
+     * - Open in terminal
      * - Copy full path
      * - - -
      * - Rename
@@ -27,13 +25,29 @@
 <div on:click={async () => {
     done()
 
-    await toast("open file")
-}}><FilePlus />Open</div>
+    const answer = await question("How should the file be named?")
+    if (!answer.value) return
+
+    const path = ctxMenu.fqpn.substring(1) + answer.value
+    await invoke("create_file", {fqpn: path})
+    $reloadFileTree = !$reloadFileTree
+
+    await toast("File created")
+}}><FilePlus />New File</div>
 
 <div on:click={async () => {
-    console.log("open file in new tab")
     done()
-}}><Tabs /> Open in new tab</div>
+
+    const answer = await question("How should the directory be named?")
+
+    if (!answer.value) return
+
+    const path = ctxMenu.fqpn.substring(1) + answer.value
+    await invoke("create_dir", {fqpn: path})
+    $reloadFileTree = !$reloadFileTree
+
+    await toast("Directory created")
+}}><FolderPlus /> New Directory</div>
 <hr />
 
 <div on:click={async () => {
@@ -48,7 +62,7 @@
 }}><FolderOpen /> Show in file explorer</div>
 
 <div on:click={async () => {
-    console.log("open in default application")
+    console.log("open in terminal")
     done()
 
     if (!await invoke("open_in_default_app", {fqpn: ctxMenu.fqpn.substring(1)})) {
@@ -56,7 +70,7 @@
     } else {
         await toast("File opened")
     }
-}}><AppWindow /> Open in default application</div>
+}}><TerminalWindow /> Open in Terminal</div>
 
 <div on:click={async () => {
     done()

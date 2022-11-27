@@ -16,7 +16,11 @@ export type FileCtxMenuPayload = {
     filename: string;
 }
 
-export type DirCtxMenuPayload = FileCtxMenuPayload
+export type DirCtxMenuPayload = {
+    type: "dir";
+    fqpn: string;
+    dirname: string;
+}
 
 export type CtxMenuPayload = FileCtxMenuPayload | DirCtxMenuPayload | NullCtxMenuPayload;
 

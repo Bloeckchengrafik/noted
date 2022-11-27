@@ -221,7 +221,6 @@
      * - Copy full path
      * - - -
      * - Rename
-     * - Move
      * - Delete
      *
      * @param opened_dirs the list of opened directories
@@ -229,6 +228,38 @@
      */
     function onContextDir(opened_dirs: { includes: (val: string) => boolean }, event: MouseEvent) {
         console.log("dir context")
+
+        let dirContextMenuX = event.clientX-10
+        let dirContextMenuY = event.clientY-10
+
+        // Make sure the context menu is not off the screen
+        if (dirContextMenuX + 200 > window.innerWidth) {
+            dirContextMenuX = window.innerWidth - 200
+            console.warn("Context menu is off the screen, moving it to the left")
+        }
+
+        if (dirContextMenuY + 300 > window.innerHeight) {
+            dirContextMenuY = window.innerHeight - 300
+            console.warn("Context menu is off the screen, moving it to the top")
+        }
+
+        // There is another 50px of padding at the top of the screen
+        if (dirContextMenuY < 50) {
+            dirContextMenuY = 50
+            console.warn("Context menu is off the screen, moving it to the bottom")
+        }
+
+        currentCtxMenuSettings.update(s => {
+            s.x = dirContextMenuX
+            s.y = dirContextMenuY
+            s.visible = true
+            s.payload = {
+                type: "dir",
+                fqpn: fqpn,
+                dirname: node.name,
+            }
+            return s
+        })
     }
 
 </script>

@@ -18,6 +18,12 @@ fn main() {
             commands::tree::delete,
             commands::tree::open_in_explorer,
             commands::tree::open_in_default_app,
+            commands::tree::create_file,
+            commands::tree::create_dir,
+            commands::tree::open_dir_in_explorer,
+            commands::tree::open_dir_in_default_terminal,
+            commands::tree::rename_dir,
+            commands::tree::delete_dir,
             commands::saveload::get_settings,
             commands::saveload::save_settings
         ])
