@@ -54,6 +54,7 @@
 </div>
 
 <div class="sidenav-transition" style="margin-left: {$sidebarOpen?'300':'0'}px">
+    <div style="height: 50px"></div>
     <slot/>
 </div>
 

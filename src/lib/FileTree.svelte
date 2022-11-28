@@ -9,9 +9,9 @@
         FileCsv,
         FileImage, FileLock, FileVideo, FileCode
     } from "phosphor-svelte";
-    import {settings, currentCtxMenuSettings} from "../stores.js";
+    import {settings, currentCtxMenuSettings, currentTab} from "../stores.js";
 
-    export type FileNode = {
+    type FileNode = {
         name: string;
         node_type: "File" | "Directory";
         children: FileNode[];
@@ -40,7 +40,7 @@
 
     let CurrentFileIcon = File
 
-    const fileExtension = node.name.split(".").pop()
+    const fileExtension: string = "" + node.name.split(".").pop()
 
     const extensions = {
         "md": FileDoc, // markdown
@@ -141,6 +141,26 @@
 
     const onClickFile = (opened_dirs: { includes: (val: string) => boolean }) => {
         console.log("file clicked")
+
+        settings.update((s) => {
+            if (s.opened_files.includes(fqpn)) {
+                return s
+            }
+
+            if (s.opened_files.length == 0) {
+                s.opened_files.push(fqpn)
+                return s
+            }
+
+            // Replace the current tab with the new one
+            s.opened_files[s.opened_files.indexOf($currentTab)] = fqpn
+
+            return s
+        })
+
+        currentTab.update((_) => {
+            return fqpn
+        })
     }
 
     const onClickDir = (opened_dirs: { includes: (val: string) => boolean }) => {

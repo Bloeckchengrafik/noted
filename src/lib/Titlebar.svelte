@@ -1,28 +1,37 @@
 <script lang="ts">
-    import {Notebook, Folder, Gear} from "phosphor-svelte";
-    import Tab from "$lib/Tab.svelte";
-    import {sidebarOpen} from "../stores.js";
+  import { Notebook, Folder, Gear } from "phosphor-svelte";
+  import Tab from "$lib/Tab.svelte";
+  import { sidebarOpen, settings } from "../stores.js";
 </script>
 
 <div class="titlebar">
-    <div class="quick-actions">
-        <div on:click={() => { $sidebarOpen = !$sidebarOpen; console.log("toggle sidebar") }}>
-            <Folder/>
-        </div>
+  <div class="quick-actions">
+    <div
+      on:click={() => {
+        $sidebarOpen = !$sidebarOpen;
+        console.log("toggle sidebar");
+      }}
+    >
+      <Folder />
     </div>
-    <div class="v-sep"></div>
-    <div class="tabs">
-        <Tab/>
+  </div>
+  <div class="v-sep" />
+  <div class="tabs">
+    {#key settings}
+      {#each $settings.opened_files as tab}
+        <Tab {tab} />
+      {/each}
+    {/key}
+  </div>
+  <div class="v-sep" />
+  <div class="quick-actions">
+    <div>
+      <Notebook />
     </div>
-    <div class="v-sep"></div>
-    <div class="quick-actions">
-        <div>
-            <Notebook/>
-        </div>
-        <div>
-            <Gear/>
-        </div>
+    <div>
+      <Gear />
     </div>
+  </div>
 </div>
 
 <style lang="sass">
