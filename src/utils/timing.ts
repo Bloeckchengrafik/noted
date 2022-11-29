@@ -25,7 +25,6 @@ export const throttle = (func: Function, limit: number) => {
 export const afterInactivity = (func: Function, delay: number) => {
     let timeout: any
     return function (...args: any) {
-        console.log('afterInactivity')
         // @ts-ignore
         const context = this
         clearTimeout(timeout)
