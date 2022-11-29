@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { Circle, Pulse, Stretch, SyncLoader } from "svelte-loading-spinners";
+    import { Circle } from "svelte-loading-spinners";
 
     export let current_save_state: number;
 </script>
 
 <div class={"notch " + (current_save_state > 0 ? "open" : "")}>
-    {#if current_save_state == 1}
+    {#if current_save_state === 1}
         <div class="spacing">
             <Circle color="var(--color-text)" size="12" unit="px" />
         </div>

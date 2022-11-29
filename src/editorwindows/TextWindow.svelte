@@ -3,7 +3,7 @@
     import {onMount, onDestroy} from "svelte";
     import {get_contents, save_contents} from "../utils/fileops";
     import Style from "./editor.module.css";
-    import Savenotch from "./savenotch.svelte";
+    import SaveIcon from "./SaveIcon.svelte";
 
     export let fqpn: string;
 
@@ -97,7 +97,7 @@
     </div>
 </div>
 
-<Savenotch current_save_state={saveState}/>
+<SaveIcon current_save_state={saveState}/>
 
 <style lang="sass">
   .pre
