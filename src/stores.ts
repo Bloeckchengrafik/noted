@@ -58,3 +58,4 @@ export const hasLoaded = writable(false);
 export const currentTab = writable("");
 
 export const hasSettingsOpen = writable(false);
+export const hasFinderOpen = writable(false);

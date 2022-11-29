@@ -5,11 +5,13 @@
     import {invoke} from "@tauri-apps/api/tauri";
     import {currentTab, hasLoaded, settings, sidebarOpen} from "../stores";
     import type {Settings} from "../stores";
-    import {onMount} from "svelte";
+    import {onDestroy, onMount} from "svelte";
     import Preloader from "$lib/Preloader.svelte";
     import CtxMenu from "$lib/CtxMenu.svelte";
-    import {currentCtxMenuSettings, hasSettingsOpen} from "../stores.js";
+    import {currentCtxMenuSettings, hasFinderOpen, hasSettingsOpen} from "../stores.js";
     import SettingsPage from "$lib/SettingsPage.svelte";
+    import {onKeydown} from "../utils/globalShortcuts";
+    import QuickFinder from "$lib/QuickFinder.svelte";
 
     onMount(async () => {
         let settingsAnswer = (await invoke("get_settings")) as Settings;
@@ -43,8 +45,14 @@
 
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
+        document.addEventListener("keydown", onKeydown)
+
         hasLoaded.set(true);
     });
+
+    onDestroy(() => {
+        document.removeEventListener("keydown", onKeydown)
+    })
 </script>
 
 {#if !$hasLoaded}
@@ -55,6 +63,9 @@
     {/key}
     {#if $hasSettingsOpen}
         <SettingsPage />
+    {/if}
+    {#if $hasFinderOpen}
+        <QuickFinder/>
     {/if}
     <Titlebar/>
     <FileNav>

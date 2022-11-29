@@ -1,8 +1,37 @@
 <script>
     import {hasSettingsOpen} from "../stores";
     import SettingsGeneral from "$lib/settings/SettingsGeneral.svelte";
+    import {onDestroy, onMount} from "svelte";
 
     let openId = 0
+
+    const onKeydown = (e) => {
+        if (e.key === "Escape") {
+            hasSettingsOpen.set(false)
+        }
+
+        if (e.key === "ArrowUp") {
+            openId = openId - 1
+            if (openId < 0) {
+                openId = 0
+            }
+        }
+
+        if (e.key === "ArrowDown") {
+            openId = openId + 1
+            if (openId > 2) {
+                openId = 2
+            }
+        }
+    }
+
+    onMount(() => {
+        document.addEventListener("keydown", onKeydown)
+    })
+
+    onDestroy(() => {
+        document.removeEventListener("keydown", onKeydown)
+    })
 </script>
 
 <div class="overlay" on:click={() => $hasSettingsOpen = false}>
@@ -91,7 +120,7 @@
     height: calc(100% - 80px)
     width: 300px
     background: var(--color-background-primary)
-    border-right: 1px solid var(--color-border)
+    border-right: 1px solid var(--color-background-quaternary)
 
     ul
       list-style: none
