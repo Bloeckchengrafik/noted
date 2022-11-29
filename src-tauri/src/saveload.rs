@@ -8,7 +8,8 @@ use serde::{Deserialize, Serialize};
 pub struct Settings {
     pub file_tree_open: bool,
     pub opened_dirs: Vec<String>,
-    pub opened_files: Vec<String>
+    pub opened_files: Vec<String>,
+    pub editor_font_size: u32,
 }
 
 /// The Preferences struct is used to store the user's preferences. It is
@@ -30,6 +31,7 @@ impl SavedData {
                 file_tree_open: true,
                 opened_dirs: vec!["/".to_string()],
                 opened_files: vec![],
+                editor_font_size: 14,
             },
             preferences: Preferences {},
         }

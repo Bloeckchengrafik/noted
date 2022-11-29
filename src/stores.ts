@@ -5,6 +5,7 @@ export type Settings = {
     file_tree_open: boolean;
     opened_dirs: string[];
     opened_files: string[];
+    editor_font_size: number;
 }
 
 export type NullCtxMenuPayload = {
@@ -37,7 +38,12 @@ export const settings: Writable<Settings> = writable({
     file_tree_open: true,
     opened_dirs: [],
     opened_files: [],
+    editor_font_size: 14,
 });
+
+settings.subscribe((settings) => {
+    document.body.style.setProperty("--editor-font-size", `${settings.editor_font_size}px`);
+})
 
 export const currentCtxMenuSettings: Writable<CtxMenu> = writable({
     x: 0,
@@ -50,3 +56,5 @@ export const reloadFileTree = writable(false);
 
 export const hasLoaded = writable(false);
 export const currentTab = writable("");
+
+export const hasSettingsOpen = writable(false);

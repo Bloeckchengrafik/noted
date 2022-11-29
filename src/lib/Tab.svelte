@@ -33,23 +33,20 @@
     display: flex
     align-items: center
     justify-content: center
-    height: 70%
-    margin: 0 5px
-    padding: 0 10px
-    border-radius: 10px
+    height: 90%
+    padding: 0 20px
     cursor: pointer
-    transition: background-color 0.2s ease-in-out
-    background: #77777722
+    background: #77777709
+    border-bottom: 2px solid transparent
+    transition: background 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out
 
-    &:hover
-      background-color: #77777755
-
+    &:hover,
     &:active
-      background-color: #77777733
+      background: #77777720
 
     span
       margin-left: 10px
   
   .active
-    background-color: #77777755
+    border-bottom-color: #777777
 </style>

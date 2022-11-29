@@ -69,14 +69,8 @@
     background: var(--color-background-tertiary)
     overflow-x: hidden
 
-  .sidenav h4
-    margin: 0
-    padding: 10px 0 0 10px
-    font-size: 20px
-    color: var(--color-text-primary)
-
   .sidenav-transition
-    transition: width 0.5s, margin-left 0.5s
+    transition: width 0.2s ease-in-out, margin-left 0.3s ease-in-out
 
   .mask
     width: 300px

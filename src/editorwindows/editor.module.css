@@ -12,8 +12,30 @@
     height: 100%;
     width: calc(100% - 2em);
     padding: 1em;
+    font-size: var(--editor-font-size);
 }
 
 .editorwindow:focus-visible{
     outline: none;
+}
+
+.fqpn {
+    font-family: "Victor Mono", monospace;
+    font-size: 0.8em;
+    margin-top: 0.5em;
+    font-weight: 500;
+    width: 100%;
+    text-align: center;
+    border-radius: 12px;
+    position: fixed;
+    top: 50px;
+    left: 0;
+    z-index: 10;
+}
+
+.fqpn > span {
+    z-index: 10;
+    padding: 0.5em;
+    color: var(--color-border);
+    background-color: var(--color-background);
 }

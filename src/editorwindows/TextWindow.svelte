@@ -3,7 +3,8 @@
     import {onMount, onDestroy} from "svelte";
     import {get_contents, save_contents} from "../utils/fileops";
     import Style from "./editor.module.css";
-    import SaveIcon from "./SaveIcon.svelte";
+    import SaveIcon from "../lib/SaveIcon.svelte";
+    import {changeSizeKeybindListener} from "../utils/editor";
 
     export let fqpn: string;
 
@@ -42,6 +43,7 @@
     onMount(async () => {
         await load();
         document.addEventListener("keydown", onKeydown);
+        document.addEventListener("keydown", changeSizeKeybindListener)
 
         empty = contentRef.innerText === "" || contentRef.innerText === "\n";
 
@@ -66,6 +68,7 @@
     onDestroy(async () => {
         if (initialized) await save_contents(fqpn, contentRef.innerText);
         document.removeEventListener("keydown", onKeydown);
+        document.removeEventListener("keydown", changeSizeKeybindListener)
 
         clearInterval(intervalUpdateEmptyMessage)
     });
@@ -90,7 +93,7 @@
 </script>
 
 <div class={Style.container}>
-    <pre bind:this={contentRef} class={Style.editorwindow} contenteditable="true" on:keyup={beginSave}></pre>
+    <pre bind:this={contentRef} class={Style.editorwindow + " pre"} contenteditable="true" on:keyup={beginSave}></pre>
 
     <div class={"behind-text " + (empty ? " " : "invisible ") + (forceInvisible ? "force-invisible" : "")} bind:this={centerTextRef}>
         Just start typing...
@@ -101,9 +104,12 @@
 
 <style lang="sass">
   .pre
-    // Enable line wrapping
     white-space: normal
     width: 100%
+    max-width: 800px!important
+    margin: 0 auto
+    line-height: 1.2em
+    padding-top: 4em
     z-index: 1
 
   .behind-text

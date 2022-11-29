@@ -12,7 +12,7 @@
   --color-senary: #b48ead;
 
   --color-text: #d8dee9;
-  --color-text-secondary: #e5e9f0;
+  --color-text-secondary: #b0b8c8;
 
   --color-background: #2e3440;
   --color-background-secondary: #3b4252;
@@ -27,6 +27,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --editor-font-size: 14px;
 }
 
 /* Light Theme */
@@ -60,6 +62,7 @@ body {
 
 * {
   user-select: none;
+  scroll-behavior: smooth;
 }
 
 @font-face {

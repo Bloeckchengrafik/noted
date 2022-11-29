@@ -2,13 +2,14 @@
     import "../app.css";
     import Titlebar from "$lib/Titlebar.svelte";
     import FileNav from "$lib/FileNav.svelte";
-    import { invoke } from "@tauri-apps/api/tauri";
-    import { currentTab, hasLoaded, settings, sidebarOpen } from "../stores";
-    import type { Settings } from "../stores";
-    import { onMount } from "svelte";
+    import {invoke} from "@tauri-apps/api/tauri";
+    import {currentTab, hasLoaded, settings, sidebarOpen} from "../stores";
+    import type {Settings} from "../stores";
+    import {onMount} from "svelte";
     import Preloader from "$lib/Preloader.svelte";
     import CtxMenu from "$lib/CtxMenu.svelte";
-    import { currentCtxMenuSettings } from "../stores.js";
+    import {currentCtxMenuSettings, hasSettingsOpen} from "../stores.js";
+    import SettingsPage from "$lib/SettingsPage.svelte";
 
     onMount(async () => {
         let settingsAnswer = (await invoke("get_settings")) as Settings;
@@ -26,7 +27,7 @@
                 return;
             }
             console.log("Saving settings: ", value);
-            invoke("save_settings", { settings: value }).then((_) =>
+            invoke("save_settings", {settings: value}).then((_) =>
                 console.log("Settings saved!")
             );
         });
@@ -47,13 +48,16 @@
 </script>
 
 {#if !$hasLoaded}
-    <Preloader />
+    <Preloader/>
 {:else}
     {#key currentCtxMenuSettings}
-        <CtxMenu ctxMenu={$currentCtxMenuSettings} />
+        <CtxMenu ctxMenu={$currentCtxMenuSettings}/>
     {/key}
-    <Titlebar />
+    {#if $hasSettingsOpen}
+        <SettingsPage />
+    {/if}
+    <Titlebar/>
     <FileNav>
-        <slot />
+        <slot/>
     </FileNav>
 {/if}

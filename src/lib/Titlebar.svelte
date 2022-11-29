@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Notebook, Folder, Gear } from "phosphor-svelte";
   import Tab from "$lib/Tab.svelte";
-  import { sidebarOpen, settings } from "../stores.js";
+  import { sidebarOpen, settings, hasSettingsOpen } from "../stores.js";
 </script>
 
 <div class="titlebar">
@@ -15,7 +15,7 @@
       <Folder />
     </div>
   </div>
-  <div class="v-sep" />
+  <div class="v-sep"></div>
   <div class="tabs">
     {#key settings}
       {#each $settings.opened_files as tab}
@@ -23,12 +23,14 @@
       {/each}
     {/key}
   </div>
-  <div class="v-sep" />
+  <div class="v-sep"></div>
   <div class="quick-actions">
     <div>
       <Notebook />
     </div>
-    <div>
+    <div on:click={() => {
+      $hasSettingsOpen = true;
+    }}>
       <Gear />
     </div>
   </div>
@@ -47,7 +49,7 @@
     display: flex
     align-items: center
     justify-content: flex-start
-    color: val(--color-text)
+    color: var(--color-text)
     letter-spacing: 1px
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)
 
