@@ -27,9 +27,9 @@ The Name comes from the popular meme "Noted!", the Kowalski one.
 - [x] Copy folder paths
 - [x] Preload
 - [x] Tabs
-- [ ] Load Files
-- [ ] Save Files
-- [ ] Auto-save files
+- [x] Load Files
+- [x] Save Files
+- [x] Auto-save files
 - [ ] Markdown
 - [ ] Search and Replace
 - [ ] Settings

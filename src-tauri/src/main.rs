@@ -25,7 +25,9 @@ fn main() {
             commands::tree::rename_dir,
             commands::tree::delete_dir,
             commands::saveload::get_settings,
-            commands::saveload::save_settings
+            commands::saveload::save_settings,
+            commands::file_contents::file_contents,
+            commands::file_contents::write_file,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

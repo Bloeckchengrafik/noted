@@ -1,0 +1,19 @@
+.container{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 50px);
+    width: 100%;
+    top: 50px;
+    left: 0;
+}
+
+.editorwindow{
+    height: 100%;
+    width: calc(100% - 2em);
+    padding: 1em;
+}
+
+.editorwindow:focus-visible{
+    outline: none;
+}

@@ -2,21 +2,23 @@
     import "../app.css";
     import Titlebar from "$lib/Titlebar.svelte";
     import FileNav from "$lib/FileNav.svelte";
-    import {invoke} from "@tauri-apps/api/tauri";
-    import {hasLoaded, settings, sidebarOpen} from "../stores";
-    import type {Settings} from "../stores";
-    import {onMount} from "svelte";
+    import { invoke } from "@tauri-apps/api/tauri";
+    import { currentTab, hasLoaded, settings, sidebarOpen } from "../stores";
+    import type { Settings } from "../stores";
+    import { onMount } from "svelte";
     import Preloader from "$lib/Preloader.svelte";
     import CtxMenu from "$lib/CtxMenu.svelte";
-    import {currentCtxMenuSettings} from "../stores.js";
+    import { currentCtxMenuSettings } from "../stores.js";
 
     onMount(async () => {
-        let settingsAnswer = await invoke("get_settings") as Settings;
+        let settingsAnswer = (await invoke("get_settings")) as Settings;
 
         settings.set(settingsAnswer);
         console.log("Settings loaded: ", settingsAnswer);
         sidebarOpen.set(settingsAnswer.file_tree_open);
-
+        if (settingsAnswer.opened_files.length > 0) {
+            $currentTab = settingsAnswer.opened_files[0];
+        }
 
         settings.subscribe((value) => {
             if (!hasLoaded) {
@@ -24,32 +26,34 @@
                 return;
             }
             console.log("Saving settings: ", value);
-            invoke("save_settings", {settings: value}).then(_ => console.log("Settings saved!"));
-        })
+            invoke("save_settings", { settings: value }).then((_) =>
+                console.log("Settings saved!")
+            );
+        });
 
         sidebarOpen.subscribe((value) => {
             if (!hasLoaded) return;
-            settings.update(settings => {
+            settings.update((settings) => {
                 settings.file_tree_open = value;
                 console.log("Settings updated: ", settings);
                 return settings;
             });
-        })
+        });
 
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         hasLoaded.set(true);
     });
 </script>
 
 {#if !$hasLoaded}
-    <Preloader/>
+    <Preloader />
 {:else}
     {#key currentCtxMenuSettings}
-        <CtxMenu ctxMenu={$currentCtxMenuSettings}/>
+        <CtxMenu ctxMenu={$currentCtxMenuSettings} />
     {/key}
-    <Titlebar/>
+    <Titlebar />
     <FileNav>
-        <slot/>
+        <slot />
     </FileNav>
 {/if}

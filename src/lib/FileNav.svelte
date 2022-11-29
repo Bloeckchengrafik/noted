@@ -53,7 +53,7 @@
     </div>
 </div>
 
-<div class="sidenav-transition" style="margin-left: {$sidebarOpen?'300':'0'}px">
+<div class="sidenav-transition" style="margin-left: {$sidebarOpen?'300':'0'}px;height: 100vh;position:relative">
     <div style="height: 50px"></div>
     <slot/>
 </div>
@@ -76,7 +76,7 @@
     color: var(--color-text-primary)
 
   .sidenav-transition
-    transition: width 0.5s
+    transition: width 0.5s, margin-left 0.5s
 
   .mask
     width: 300px
