@@ -93,7 +93,10 @@
 </script>
 
 <div class={Style.container}>
-    <pre bind:this={contentRef} class={Style.editorwindow + " pre"} contenteditable="true" on:keyup={beginSave}></pre>
+    <!-- Text field with disabled spellchecking -->
+    <pre bind:this={contentRef} class={Style.editorwindow + " pre"} contenteditable="true" on:keyup={beginSave}
+        spellcheck="false"
+    ></pre>
 
     <div class={"behind-text " + (empty ? " " : "invisible ") + (forceInvisible ? "force-invisible" : "")} bind:this={centerTextRef}>
         Just start typing...
@@ -137,4 +140,9 @@
 
   .force-invisible
     opacity: 0
+
+@media screen and (max-width: 800px)
+  .pre
+    max-width: 100% !important
+
 </style>
