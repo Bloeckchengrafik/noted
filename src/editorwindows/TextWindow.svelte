@@ -1,10 +1,10 @@
 <script lang="ts">
     import {afterInactivity} from "../utils/timing";
     import {onMount, onDestroy} from "svelte";
-    import {get_contents, save_contents} from "../utils/fileops";
     import Style from "./editor.module.css";
     import SaveIcon from "../lib/SaveIcon.svelte";
     import {changeSizeKeybindListener} from "../utils/editor";
+    import {save_contents} from "../utils/fileops";
 
     export let fqpn: string;
 
@@ -28,21 +28,7 @@
 
     let intervalUpdateEmptyMessage;
 
-    const load = async () => {
-        contentRef.innerText = await get_contents(fqpn) as string;
-        initialized = true;
-    };
-
-    const onKeydown = async (e: KeyboardEvent) => {
-        if (e.key === "s" && e.ctrlKey) {
-            e.preventDefault();
-            await save();
-        }
-    };
-
     onMount(async () => {
-        await load();
-        document.addEventListener("keydown", onKeydown);
         document.addEventListener("keydown", changeSizeKeybindListener)
 
         empty = contentRef.innerText === "" || contentRef.innerText === "\n";
@@ -67,7 +53,6 @@
 
     onDestroy(async () => {
         if (initialized) await save_contents(fqpn, contentRef.innerText);
-        document.removeEventListener("keydown", onKeydown);
         document.removeEventListener("keydown", changeSizeKeybindListener)
 
         clearInterval(intervalUpdateEmptyMessage)

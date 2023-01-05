@@ -1,3 +1,4 @@
+import {math} from 'mathlifier';
 import {doInBetweenReplace} from "./syntax";
 
 export function highlightMD(code: string, caretLine: number): string {
@@ -5,6 +6,13 @@ export function highlightMD(code: string, caretLine: number): string {
     let lineno = 0
 
     for (let line of code.split("\n")) {
+
+        // This needs to be transformed to a multiline statement
+        // if (lineno == caretLine) {
+        line = line.replace(/</g, "&lt;")
+        line = line.replace(/>/g, "&gt;")
+        // }
+
         if (line.startsWith("# ")) {
             let addClass = "target"
 
@@ -22,6 +30,15 @@ export function highlightMD(code: string, caretLine: number): string {
             line = doInBetweenReplace(/\*([^*]+)\*(?!\*)/g, "italic", "*$1*", "md", lineno, caretLine, line)
             line = doInBetweenReplace(/~~([^~]+)~~/g, "strike", "~~$1~~", "md", lineno, caretLine, line)
             line = doInBetweenReplace(/__(.+?)__/g, "underline", "__$1__", "md", lineno, caretLine, line)
+
+            // do latex math
+            if (lineno != caretLine) {
+                for (let match of line.matchAll(/\$([^$]+)\$/g)) {
+                    let latex = match[1]
+                    let result = math(latex)
+                    line = line.replace(`$${latex}$`, `<span class="syntax md latex">${result}</span>`)
+                }
+            }
 
             if (inlineCode) {
                 for (let i = 0; i < inlineCode.length; i++) {

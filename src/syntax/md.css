@@ -1,3 +1,7 @@
+.editor {
+  font-size: var(--editor-font-size);
+}
+
 .syntax.md.h1 {
   font-weight: bold;
   margin: 0.67em 0;
@@ -39,4 +43,8 @@
 .syntax.md.code:not(.target) {
   padding-left: 0.15em;
   padding-right: 0.15em;
+}
+
+.katex-html {
+  display: none;
 }
