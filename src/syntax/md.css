@@ -1,0 +1,44 @@
+.syntax.md.h1 {
+  font-weight: bold;
+  margin: 0.67em 0;
+  padding: 0;
+}
+
+.syntax.md.h1:not(.target) {
+  margin-left: 1ch;
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-border);
+  text-underline-offset: 0.15em;
+}
+
+.syntax.md.italic {
+  font-style: italic;
+}
+
+.syntax.md.bold {
+  font-weight: bold;
+}
+
+.syntax.md.underline {
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-border);
+  text-underline-offset: 0.15em;
+}
+
+.syntax.md.strike {
+  text-decoration-line: line-through;
+  text-decoration-color: var(--color-border);
+  text-underline-offset: 0.15em;
+}
+
+.syntax.md.code {
+  font-family: "Victor Mono", monospace;
+  border-radius: 4px;
+  z-index: 10;
+  background: #77777777
+}
+
+.syntax.md.code:not(.target) {
+  padding-left: 0.15em;
+  padding-right: 0.15em;
+}
