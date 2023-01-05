@@ -19,7 +19,7 @@ export const onKeydown = (event: KeyboardEvent) => {
     }
 
     // Toggle Finder: CTRL + P
-    if (event.ctrlKey && event.key === 'P') {
+    if (event.ctrlKey && event.key === 'p') {
         event.preventDefault();
         hasFinderOpen.update(s => !s);
     }
