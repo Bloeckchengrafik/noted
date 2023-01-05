@@ -21,13 +21,11 @@
 
 .syntax.md.underline {
   text-decoration-line: underline;
-  text-decoration-color: var(--color-border);
   text-underline-offset: 0.15em;
 }
 
 .syntax.md.strike {
   text-decoration-line: line-through;
-  text-decoration-color: var(--color-border);
   text-underline-offset: 0.15em;
 }
 
