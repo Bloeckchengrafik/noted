@@ -30,11 +30,11 @@ The Name comes from the popular meme "Noted!", the Kowalski one.
 - [x] Load Files
 - [x] Save Files
 - [x] Auto-save files
-- [ ] Markdown
+- [x] Markdown
 - [ ] Search and Replace
 - [ ] Settings
-- [ ] LaTeX Support ($$latex$$) + LaTeX Preview + LaTeX Export
-- [ ] Live-Editing
+- [x] LaTeX Support ($$latex$$) + LaTeX Preview + LaTeX Export
+- [x] Live-Editing
 - [ ] Code Blocks with Syntax Highlighting and Run Button
 - [ ] Export to PDF
 - [ ] Export to HTML
