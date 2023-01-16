@@ -12,9 +12,6 @@ _A Note-taking app for the 21st century_
 ### Status
 
 This project is in a very early stage of development and is not ready for use.
-The Name comes from the popular meme "Noted!", the Kowalski one.
-
-![Noted!](https://i.kym-cdn.com/entries/icons/original/000/036/325/kowalskicover.jpg)
 
 ### Features
 
