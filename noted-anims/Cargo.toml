@@ -1,0 +1,15 @@
+[package]
+name = "noted-anims"
+version = "0.1.0"
+edition = "2021"
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[dependencies]
+bevy = { version = "0.9.1", features = ["dynamic"] }
+serde = { version = "1.0.152", features = ["derive"] }
+serde_json = "1.0.91"

@@ -1,0 +1,44 @@
+- [ ] GUI
+  - [x] GUI Shown
+  - [ ] Timeline
+  - [ ] Outliner
+  - [ ] Animation Window
+  - [ ] Graph Editor
+  - [ ] Dope Sheet
+  - [ ] Sources Window
+  - [ ] Properties Window
+  - [ ] File Browser
+  - [ ] Full Screen Viewer
+- [ ] File Format
+  - [ ] Embedding Images
+  - [ ] Embedding Audio
+  - [ ] Embedding Video
+  - [ ] Embedding LaTeX
+  - [ ] Embedding SVG
+  - [ ] Embedding Code
+  - [ ] Embedding HTML
+  - [ ] Save and Load
+- [ ] Rendering
+  - [ ] Animation Engine
+  - [ ] SVG Engine
+  - [ ] LaTeX Engine
+  - [ ] HTML Engine
+  - [ ] Code Engine
+  - [ ] Video Engine
+  - [ ] Audio Engine
+  - [ ] Image Engine
+  - [ ] Bake scenes
+  - [ ] Bake animations
+  - [ ] Export to pptx
+- [ ] Animation
+  - [ ] Keyframes
+  - [ ] Interpolation
+    - [ ] Linear
+    - [ ] Bezier
+    - [ ] Catmull-Rom
+    - [ ] Hermite
+    - [ ] Spline
+    - [ ] Step
+    - [ ] Constant
+    - [ ] https://easings.net/
+  - [ ] Gizmos
