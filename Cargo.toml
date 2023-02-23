@@ -15,3 +15,6 @@ bevy = { version = "0.9.1", features = ["dynamic"] }
 
 # Stylus support on windows
 windows = "0.44.0"
+
+# Utilities
+lazy_static = "1.4.0"

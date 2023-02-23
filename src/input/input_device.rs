@@ -1,5 +1,4 @@
 use bevy::app::App;
-use bevy::prelude::*;
 
 pub trait InputDevice {
     fn new() -> Self;
