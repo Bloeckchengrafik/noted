@@ -13,6 +13,8 @@ _A Note-taking app for the 21st century_
 
 This project is in a very early stage of development and is not ready for use.
 
+I am currently rewriting this to integrate my two note-flows (hand-written and text based).
+
 ### Features
 
 - [x] Create, rename and delete files
