@@ -11,7 +11,7 @@ opt-level = 3
 
 [dependencies]
 # UI
-bevy = "0.9.1"
+bevy = { version = "0.9.1", features = ["dynamic"] }
 
 # Stylus support on windows
 windows = "0.44.0"
