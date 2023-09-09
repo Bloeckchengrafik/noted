@@ -1,7 +1,7 @@
 use bevy::app::App;
+use bevy::prelude::Event;
 
-pub trait InputDevice {
-    fn new() -> Self;
+pub trait StylusInputDeviceManager {
     fn add_to_app(&self, app: &mut App);
 }
 
@@ -11,6 +11,10 @@ pub struct StylusInputDeviceEvent {
     pub pressure: f32, // 0.0 - 1.0
 }
 
+impl Event for StylusInputDeviceEvent {}
+
 pub struct StylusInputDeviceDownEvent;
+impl Event for StylusInputDeviceDownEvent {}
 
 pub struct StylusInputDeviceUpEvent;
+impl Event for StylusInputDeviceUpEvent {}

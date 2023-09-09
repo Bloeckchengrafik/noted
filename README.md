@@ -22,7 +22,7 @@ The Name comes from the popular meme "Noted!", the Kowalski one.
 - [x] Create, rename and delete folders
 - [x] Open files in the default application
 - [x] Open folders in the explorer
-- [x] Auto-save state
+- [x] Auto-save STATE
 - [x] Copy file paths
 - [x] Copy folder paths
 - [x] Preload
