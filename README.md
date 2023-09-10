@@ -17,23 +17,23 @@ I am currently rewriting this to integrate my two note-flows (hand-written and t
 
 ### Features
 
-- [x] Create, rename and delete files
-- [x] Create, rename and delete folders
-- [x] Open files in the default application
-- [x] Open folders in the explorer
-- [x] Auto-save STATE
-- [x] Copy file paths
-- [x] Copy folder paths
-- [x] Preload
-- [x] Tabs
-- [x] Load Files
-- [x] Save Files
-- [x] Auto-save files
-- [x] Markdown
+- [ ] Create, rename and delete files
+- [ ] Create, rename and delete folders
+- [ ] Open files in the default application
+- [ ] Open folders in the explorer
+- [ ] Auto-save STATE
+- [ ] Copy file paths
+- [ ] Copy folder paths
+- [ ] Preload
+- [ ] Tabs
+- [ ] Load Files
+- [ ] Save Files
+- [ ] Auto-save files
+- [ ] Markdown
 - [ ] Search and Replace
 - [ ] Settings
-- [x] LaTeX Support ($$latex$$) + LaTeX Preview + LaTeX Export
-- [x] Live-Editing
+- [ ] LaTeX Support ($$latex$$) + LaTeX Preview + LaTeX Export
+- [ ] Live-Editing
 - [ ] Code Blocks with Syntax Highlighting and Run Button
 - [ ] Export to PDF
 - [ ] Export to HTML
