@@ -12,9 +12,8 @@ _A Note-taking app for the 21st century_
 ### Status
 
 This project is in a very early stage of development and is not ready for use.
-The Name comes from the popular meme "Noted!", the Kowalski one.
 
-![Noted!](https://i.kym-cdn.com/entries/icons/original/000/036/325/kowalskicover.jpg)
+I am currently rewriting this to integrate my two note-flows (hand-written and text based).
 
 ### Features
 
@@ -30,11 +29,11 @@ The Name comes from the popular meme "Noted!", the Kowalski one.
 - [x] Load Files
 - [x] Save Files
 - [x] Auto-save files
-- [ ] Markdown
+- [x] Markdown
 - [ ] Search and Replace
 - [ ] Settings
-- [ ] LaTeX Support ($$latex$$) + LaTeX Preview + LaTeX Export
-- [ ] Live-Editing
+- [x] LaTeX Support ($$latex$$) + LaTeX Preview + LaTeX Export
+- [x] Live-Editing
 - [ ] Code Blocks with Syntax Highlighting and Run Button
 - [ ] Export to PDF
 - [ ] Export to HTML
