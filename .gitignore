@@ -29,3 +29,9 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+
+# Added by cargo
+
+/target
+core.*

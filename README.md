@@ -21,7 +21,7 @@ I am currently rewriting this to integrate my two note-flows (hand-written and t
 - [x] Create, rename and delete folders
 - [x] Open files in the default application
 - [x] Open folders in the explorer
-- [x] Auto-save state
+- [x] Auto-save STATE
 - [x] Copy file paths
 - [x] Copy folder paths
 - [x] Preload

@@ -1,0 +1,4 @@
+# .cargo/config.toml file
+# We need to use the nightly version of Rust to build the wasm file
+[toolchain]
+channel = "nightly"
