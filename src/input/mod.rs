@@ -27,7 +27,7 @@ fn get_device() -> Option<Box<libinput_input_device::LibInputInputDevice>> {
 }
 
 #[cfg(not(target_os = "linux"))]
-fn get_device() -> Option<()> {
+fn get_device() -> Option<Box<dyn StylusInputDeviceManager>> {
     None
 }
 
