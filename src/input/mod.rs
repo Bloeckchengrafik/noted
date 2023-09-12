@@ -22,8 +22,8 @@ static INTERNAL_INPUT_DATA: Mutex<InternalInputData> = Mutex::new(InternalInputD
 });
 
 #[cfg(target_os = "linux")]
-fn get_device() -> Option<libinput_input_device::LibInputInputDevice> {
-    Some(libinput_input_device::LibInputInputDevice::new())
+fn get_device() -> Option<Box<libinput_input_device::LibInputInputDevice>> {
+    Some(Box::new(libinput_input_device::LibInputInputDevice::new()))
 }
 
 #[cfg(not(target_os = "linux"))]
@@ -40,11 +40,7 @@ impl Plugin for InputPlugin {
         app.add_event::<StylusInputDeviceUpEvent>();
 
 
-        #[allow(unused_assignments)]
-        let mut input_device: Option<Box<dyn StylusInputDeviceManager>> = None;
-
-        input_device = get_device().map(|device| Box::new(device) as Box<dyn StylusInputDeviceManager>);
-
+        let mut input_device: Option<Box<dyn StylusInputDeviceManager>> = get_device();
         if let Some(input_device) = input_device {
             input_device.add_to_app(app);
         } else {
