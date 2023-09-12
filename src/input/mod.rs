@@ -43,7 +43,7 @@ impl Plugin for InputPlugin {
         #[allow(unused_assignments)]
         let mut input_device: Option<Box<dyn StylusInputDeviceManager>> = None;
 
-        input_device = get_device().map(|device| Box::new(device) as Box<dyn StylusInputDeviceManager>);
+        input_device = get_device().map(|device| device as Box<dyn StylusInputDeviceManager>);
 
         if let Some(input_device) = input_device {
             input_device.add_to_app(app);
