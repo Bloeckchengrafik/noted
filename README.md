@@ -32,7 +32,7 @@ I am currently rewriting this to integrate my two note-flows (hand-written and t
 - [ ] Markdown
 - [ ] Search and Replace
 - [ ] Settings
-- [ ] LaTeX Support ($$latex$$) + LaTeX Preview + LaTeX Export
+- [ ] LaTeX Support ($\LaTeX$) + LaTeX Preview + LaTeX Export
 - [ ] Live-Editing
 - [ ] Code Blocks with Syntax Highlighting and Run Button
 - [ ] Export to PDF
