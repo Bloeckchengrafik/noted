@@ -7,4 +7,4 @@ edition = "2021"
 
 [dependencies]
 noted_commons = { path = "../noted_commons" }
-winit = "0.29.10"
+pollster = "0.3"
