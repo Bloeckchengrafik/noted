@@ -16,6 +16,11 @@ pub struct NotedRenderingEngine {
     config: wgpu::SurfaceConfiguration,
     size: PhysicalSize<u32>,
     window: Window,
+    mouse_pos: (f64, f64),
+
+
+    hue: f32,
+    sat: f32
 }
 
 impl NotedRenderingEngine {
@@ -76,6 +81,9 @@ impl NotedRenderingEngine {
             config,
             size,
             window: window,
+            mouse_pos: (0.0, 0.0),
+            hue: 0.0,
+            sat: 0.0
         }
     }
 
@@ -92,12 +100,21 @@ impl NotedRenderingEngine {
         }
     }
 
-    fn input(&self, event: &WindowEvent) -> bool {
-        false
+    fn input(&mut self, event: &WindowEvent) -> bool {
+         match event {
+            WindowEvent::CursorMoved { position, .. } => {
+                self.mouse_pos = (position.x, position.y);
+                true
+            },
+             _ => false,
+         }
     }
 
-    fn update(&self) {
-        // Update logic here
+    fn update(&mut self) {
+        // Hue is 0-360 (mouse x)
+        // Saturation is 0-1 (mouse y)
+        self.hue = (self.mouse_pos.0 / self.size.width as f64) as f32 * 360.0;
+        self.sat = (self.mouse_pos.1 / self.size.height as f64) as f32;
     }
 
     fn redraw(&self) -> Result<(), wgpu::SurfaceError> {
@@ -112,6 +129,23 @@ impl NotedRenderingEngine {
             });
 
         {
+            let h = self.hue as f64;
+            let s = self.sat as f64;
+            let v = 0.5;
+
+            let c = v * s;
+            let x = c * (1.0 - ((h / 60.0) % 2.0 - 1.0).abs());
+
+            let (r, g, b) = match h {
+                h if h < 60.0 => (c, x, 0.0),
+                h if h < 120.0 => (x, c, 0.0),
+                h if h < 180.0 => (0.0, c, x),
+                h if h < 240.0 => (0.0, x, c),
+                h if h < 300.0 => (x, 0.0, c),
+                h if h < 360.0 => (c, 0.0, x),
+                _ => (0.0, 0.0, 0.0),
+            };
+
             let _render_pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
                 label: Some("Render Pass"),
                 color_attachments: &[Some(wgpu::RenderPassColorAttachment {
@@ -119,9 +153,9 @@ impl NotedRenderingEngine {
                     resolve_target: None,
                     ops: wgpu::Operations {
                         load: wgpu::LoadOp::Clear(wgpu::Color {
-                            r: 0.1,
-                            g: 0.2,
-                            b: 0.3,
+                            r,
+                            g,
+                            b,
                             a: 1.0,
                         }),
                         store: wgpu::StoreOp::Store,
