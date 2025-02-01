@@ -1,5 +1,6 @@
 mod assets;
 mod ui;
+mod fonts;
 
 use components::{hsl, Root, Theme, ThemeColor, ThemeMode};
 use gpui::{AnyView, App, AppContext, Timer, TitlebarOptions, WindowOptions};
@@ -42,6 +43,7 @@ fn main() {
         components::init(cx);
         init_theme(cx);
         editor::init(cx);
+        fonts::init(cx);
 
         cx.open_window(
           WindowOptions {

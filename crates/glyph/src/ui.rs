@@ -35,6 +35,7 @@ impl Render for RootView {
       .h_full()
       .bg(theme.background)
       .text_color(theme.foreground)
+      .font_family("Montserrat")
       .child(title_bar)
       .child(
         div()
