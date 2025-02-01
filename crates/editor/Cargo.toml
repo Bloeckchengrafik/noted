@@ -1,0 +1,13 @@
+[package]
+name = "editor"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+gpui.workspace = true
+components.workspace = true
+log.workspace = true
+anyhow.workspace = true
+
+smallvec = "1.13.2"
+unicode-segmentation = "1.12.0"

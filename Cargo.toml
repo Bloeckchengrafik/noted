@@ -1,0 +1,10 @@
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.dependencies]
+gpui = { git = "https://github.com/scopeclient/zed.git", branch = "feature/export-platform-window" }
+components = { package = "ui", git = "https://github.com/scopeclient/components", version = "0.1.0" }
+log = "0.4.25"
+anyhow = "1.0.95"
+serde = "1.0.217"

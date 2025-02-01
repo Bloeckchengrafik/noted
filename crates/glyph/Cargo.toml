@@ -1,0 +1,16 @@
+[package]
+name = "glyph"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+gpui.workspace = true
+components.workspace = true
+log.workspace = true
+anyhow.workspace = true
+
+pretty_env_logger = "0.5.0"
+rust-embed = "8.5.0"
+
+editor = { path = "../editor" }
+settings = { path = "../settings" }
