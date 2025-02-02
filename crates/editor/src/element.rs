@@ -1,6 +1,7 @@
-use components::ActiveTheme;
 use crate::editor::Editor;
-use gpui::{fill, point, px, relative, size, App, Bounds, Corners, Element, ElementId, ElementInputHandler, Entity, GlobalElementId, IntoElement, LayoutId, MouseButton, MouseMoveEvent, PaintQuad, Path, Pixels, Point, Style, TextRun, Window, WrappedLine};
+use crate::markdown::shape_markdown;
+use components::ActiveTheme;
+use gpui::{fill, point, px, relative, size, App, Bounds, Corners, Element, ElementId, ElementInputHandler, Entity, GlobalElementId, IntoElement, LayoutId, MouseButton, MouseMoveEvent, PaintQuad, Path, Pixels, Point, Style, Window, WrappedLine};
 use smallvec::SmallVec;
 
 const RIGHT_MARGIN: Pixels = px(5.);
@@ -267,8 +268,6 @@ impl EditorElement {
       }
     }
 
-    // print_points_as_svg_path(&line_corners, &points);
-
     let first_p = *points.get(0).unwrap();
     let mut builder = gpui::PathBuilder::fill();
     builder.move_to(bounds.origin + first_p);
@@ -313,36 +312,18 @@ impl Element for EditorElement {
   }
 
   fn prepaint(&mut self, _: Option<&GlobalElementId>, bounds: Bounds<Pixels>, _: &mut Self::RequestLayoutState, window: &mut Window, cx: &mut App) -> Self::PrepaintState {
-    let multi_line = true;
     let line_height = window.line_height();
     let editor = self.editor.read(cx);
     let display_text = editor.text.clone();
-    let style = window.text_style();
     let mut bounds = bounds;
-    let text_color = cx.theme().foreground;
 
-    let run = TextRun {
-      len: display_text.len(),
-      font: style.font(),
-      color: text_color,
-      background_color: None,
-      underline: None,
-      strikethrough: None,
-    };
-
-    let runs = vec![run];
-
-    let font_size = style.font_size.to_pixels(window.rem_size());
-    let wrap_width = if multi_line {
-      Some(bounds.size.width - RIGHT_MARGIN)
-    } else {
-      None
-    };
-
-    let lines = window
-      .text_system()
-      .shape_text(display_text, font_size, &runs, wrap_width, None)
-      .unwrap();
+    let lines = shape_markdown(
+      display_text,
+      bounds.size.width - RIGHT_MARGIN,
+      self.editor.read(cx).selected_range.clone(),
+      window,
+      cx
+    );
 
     // Calculate the scroll offset to keep the cursor in view
     let (cursor, cursor_scroll_offset) =

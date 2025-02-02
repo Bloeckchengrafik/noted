@@ -22,14 +22,15 @@ impl Render for RootView {
     let title_bar = TitleBar::new()
       .child(
         div()
+          .flex()
+          .gap_1()
           .w_20()
           .child(
             img("brand/icon.svg")
               .size_6()
           )
-      )
-      .child("Glyph")
-      .child(div());
+          .child("Glyph")
+      );
 
     div()
       .h_full()

@@ -6,6 +6,7 @@ mod actions;
 pub mod editor;
 mod element;
 mod cursor;
+mod markdown;
 
 pub fn init(cx: &mut gpui::App) {
     actions::init(cx);
